@@ -49,12 +49,12 @@ class Main {
         }
         case "4": {
           let id = readlineSync.question("Nhập id sản phẩm muốn thêm vào giỏ hàng: ");
-          this.carts.pushProductInCart(this.productList, id);
+          this.carts.addToCart(this.productList, id);
           break;
         }
         case "5": {
           let id = readlineSync.question("Nhập id sản phẩm muốn xóa khỏi giỏ hàng: ");
-          this.carts.removeProductInCart(this.productList, id);
+          this.carts.removeFormCart(this.productList, id);
           break;
         }
         default:

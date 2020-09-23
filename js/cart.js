@@ -20,28 +20,40 @@ class Cart {
     }
   }
 
-  pushProductInCart(proList, idPro) {
-    //push
-    let pro = proList.filterProductById(idPro);
-    if (pro.length === 0) {
+  addToCart(proList, idPro) {
+    if (proList.searchProductById(idPro) === null) {
       console.log(`${textColor.red("Sản phẩm không tồn tại trong cửa hàng!")}`);
       return;
     }
-    this.listCart.push(pro[0]);
-    //remove product in ProductLits
-    proList.removeProductById(idPro);
+
+    let pro = proList.searchProductById(idPro);
+    if (!proList.checkCountProduct(pro)) {
+      console.log(`${textColor.red("Sản phẩm tạm thời hết hàng, vui lòng quay lại sau!")}`);
+      return;
+    }
+    this.listCart.push(pro);
+    pro.count--;
   }
 
-  removeProductInCart(proList, idPro) {
-    // push in product loist again
-    let product = this.listCart.filter(function (pro) {
-      return pro.id === idPro;
-    });
-    if (product.length === 0) {
+  //Search product in Cart
+  searchProductById(id) {
+    for (let pro of this.listCart) {
+      if (id === pro.id) {
+        return pro;
+      }
+    }
+    return null;
+  }
+
+  removeFormCart(proList, idPro) {
+    let proInCart = this.searchProductById(idPro);
+    if (proInCart === null) {
       console.log(`${textColor.red("Sản phẩm không tồn tại trong giỏ hàng!")}`);
       return;
     }
-    proList.list.push(product[0]);
+    // push in product list again
+    let proInProductList = proList.searchProductById(idPro);
+    proInProductList.count++;
     //remove pro in cart
     this.listCart = this.listCart.filter(function (pro) {
       return pro.id !== idPro;
